@@ -1,0 +1,335 @@
+
+pack.png
+size: 64, 64
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+Icosphere_aim
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 0
+Icosphere_death
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 6
+Icosphere_death
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 4
+Icosphere_death
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 5
+Icosphere_death
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 7
+Icosphere_death
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 3
+Icosphere_death
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 0
+Icosphere_death
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 8
+Icosphere_death
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 1
+Icosphere_death
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 9
+Icosphere_death
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 2
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 9
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 12
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 1
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 15
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 6
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 2
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 13
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 0
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 7
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 14
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 16
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 5
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 10
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 3
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 4
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 8
+Icosphere_elderwalk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 11
+Icosphere_notaim
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 0
+Icosphere_stand
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 0
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 14
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 8
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 13
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 16
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 10
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 5
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 9
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 12
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 15
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 6
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 2
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 3
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 4
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 0
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 11
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 7
+Icosphere_walk
+  rotate: false
+  xy: 1, 1
+  size: 42, 42
+  orig: 256, 256
+  offset: 107, 107
+  index: 1
