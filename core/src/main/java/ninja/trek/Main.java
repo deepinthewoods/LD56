@@ -60,17 +60,17 @@ public class Main extends ApplicationAdapter {
         contactListener = new GameContactListener() ;
         world.setContactListener(contactListener);
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, 20, 20);
 
         Player player = add(Player.class);
-        player.x = 10;
-        player.y = 10;
+        player.x = 3;
+        player.y = 3;
     }
 
     @Override
     public void render() {
-        camera.update();
-        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+
+        ScreenUtils.clear(0f, 0f, 0f, 1f);
         float deltaTime = Gdx.graphics.getDeltaTime();
         if (cutScene != null){
             cutScene.render(batch, deltaTime);
@@ -98,7 +98,8 @@ public class Main extends ApplicationAdapter {
             t += dt;
         }
 
-
+        camera.position.set(0f, 0f,  0f);
+        camera.update();
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
@@ -108,8 +109,9 @@ public class Main extends ApplicationAdapter {
             e.updateRender(deltaTime, this);
         }
         batch.end();
-        if (!release)
+        if (!release) {
             debugR.render(world, camera.combined);
+        }
         stage.act(deltaTime);
         stage.draw();
     }
@@ -134,7 +136,6 @@ public class Main extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     public void setCutScene(CutScene scene){

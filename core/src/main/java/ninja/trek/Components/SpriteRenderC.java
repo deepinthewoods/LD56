@@ -19,7 +19,9 @@ public class SpriteRenderC extends Component{
 
     @Override
     public void updateRender(float dt, Main main) {
-        sprite.setPosition(e.x, e.y);
+        sprite.setPosition(e.x-5f, e.y-5f);
+        sprite.setSize(10f, 10f);
+
         sprite.draw(main.batch);
 //        Gdx.app.log("spr", "draw2");
     }

@@ -19,8 +19,9 @@ public class Player extends Entity{
     static FixtureDef fd = new FixtureDef();
     static PolygonShape shape = new PolygonShape();
     static {
-        shape.set(new float[]{-.25f, -.5f, -.25f, .5f, .25f, .5f, -.25f, -.5f});
+        shape.set(new float[]{-.25f, -.5f, -.25f, .5f, .25f, .5f, .25f, -.5f});
         fd.shape = shape;
         bd.type = BodyDef.BodyType.DynamicBody;
+
     }
 }
