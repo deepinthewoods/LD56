@@ -1,103 +1,147 @@
 package ninja.trek;
 
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.kotcrab.vis.ui.VisUI;
 
 import ninja.trek.Entity.Entity;
 import ninja.trek.Entity.Player;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
-    private SpriteBatch batch;
+    public SpriteBatch batch;
     private Texture image;
     private Array<Entity> entities = new Array<Entity>();
     public World world;
+    public Box2DDebugRenderer debugR;
     private Vector2 gravity = new Vector2(0, -20);
     private ContactListener contactListener;
-
+    public CutScene cutScene = null;
+    private Stage stage;
+    public TextureAtlas atlas;
+    private Skin skin;
+    private boolean release = false;
+    private OrthographicCamera camera;
+    private float accumulator, t;
+    private float dt = 0.01f;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         image = new Texture("libgdx.png");
-        add(Player.class);
+
         Gdx.app.log("main", "create");
-
+        stage = new Stage();
+        atlas = new TextureAtlas(Gdx.files.internal("pack.atlas"));
+        VisUI.load();
+        skin = VisUI.getSkin();
         world = new World(gravity, true);
-        contactListener = new ContactListener() {
-            @Override
-            public void beginContact(Contact contact) {
-
-            }
-
-            @Override
-            public void endContact(Contact contact) {
-
-            }
-
-            @Override
-            public void preSolve(Contact contact, Manifold oldManifold) {
-
-            }
-
-            @Override
-            public void postSolve(Contact contact, ContactImpulse impulse) {
-
-            }
-        };
+        debugR = new Box2DDebugRenderer();
+        contactListener = new GameContactListener() ;
         world.setContactListener(contactListener);
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        Player player = add(Player.class);
+        player.x = 10;
+        player.y = 10;
     }
 
     @Override
     public void render() {
+        camera.update();
+        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         float deltaTime = Gdx.graphics.getDeltaTime();
-        world.step(deltaTime, 2, 2);
-        for (int i = 0; i < entities.size; i++){
-            Entity e = entities.get(i);
-            e.update(deltaTime, this);
-        }
-        for (int i = entities.size-1; i >= 0; i--){
-            Entity e = entities.get(i);
-            if (e.remove){
-                entities.removeIndex(i);
-                e.onRemove(this);
-                e.remove = false;
-                Pools.free(e);
-            }
+        if (cutScene != null){
+            cutScene.render(batch, deltaTime);
+            return;
         }
 
-        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+        accumulator += deltaTime;
+        while ( accumulator >= dt )
+        {
+            world.step(deltaTime, 2, 2);
+            for (int i = 0; i < entities.size; i++){
+                Entity e = entities.get(i);
+                e.update(dt, this);
+            }
+            for (int i = entities.size-1; i >= 0; i--){
+                Entity e = entities.get(i);
+                if (e.remove){
+                    entities.removeIndex(i);
+                    e.onRemove(this);
+                    e.remove = false;
+                    Pools.free(e);
+                }
+            }
+            accumulator -= dt;
+            t += dt;
+        }
+
+
+
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(image, 140, 210);
+
         for (int i = 0; i < entities.size; i++){
             Entity e = entities.get(i);
             e.updateRender(deltaTime, this);
         }
         batch.end();
+        if (!release)
+            debugR.render(world, camera.combined);
+        stage.act(deltaTime);
+        stage.draw();
     }
 
     @Override
     public void dispose() {
         batch.dispose();
         image.dispose();
+        VisUI.dispose();
+        atlas.dispose();
+        stage.dispose();
     }
 
-    public void add(Class<? extends Entity> cl){
-        Entity e = Pools.obtain(cl);
+    public <T extends Entity> T add(Class<T> cl) {
+        T e = Pools.obtain(cl);
         e.init();
         e.onAdded(this);
         entities.add(e);
+        return e;
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    public void setCutScene(CutScene scene){
+        this.cutScene = scene;
+        scene.init(stage, atlas, this);
+    }
+    public void cancelCutScene(){
+        this.cutScene = null;
     }
 }

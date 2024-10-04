@@ -19,7 +19,7 @@
   <inherits name="libgdx-utils" />
   <inherits name="libgdx-utils-box2d" />
   <inherits name="ninja.trek.Main" />
-
+  <inherits name='com.kotcrab.vis.vis-ui' />
   <!-- You must change this if you rename packages later, or rename GwtLauncher. -->
   <entry-point class="ninja.trek.gwt.GwtLauncher" />
 
@@ -30,4 +30,5 @@
   <set-property name="user.agent" value="gecko1_8, safari"/>
   <collapse-property name="user.agent" values="*" />
   <!-- Remove the "user.agent" lines above if you encounter issues with Safari or other Gecko browsers. -->
+
 </module>

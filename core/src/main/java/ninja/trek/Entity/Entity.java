@@ -36,7 +36,7 @@ public class Entity {
                     Component c = (Component)o;
                     components.add(c);
                     c.e = this;
-                   // Gdx.app.log("entity", "add " + o.getClass());
+                    Gdx.app.log("entity", "add " + c.getClass());
                 } //else Gdx.app.log("entity", "not add " + f.getType());
             } catch (ReflectionException e) {
                 throw new RuntimeException(e);
