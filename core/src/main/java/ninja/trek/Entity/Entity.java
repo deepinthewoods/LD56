@@ -21,23 +21,109 @@ public class Entity {
     public void init(){
         if (hasInit) return;
         hasInit = true;
+
+        // Phase 1: Ensure all Component fields exist and collect them
         Field[] fields = ClassReflection.getFields(this.getClass());
         for (Field f : fields){
             try {
+                // Ignore static fields
+                if (f.isStatic()) continue;
+
+                // Only consider fields that are Components
+                if (!Component.class.isAssignableFrom(f.getType())) continue;
+
                 Object o = f.get(this);
                 if (o == null) {
-                    // If the field is null, create a new instance
+                    // If the field is null, create a new instance via no-arg constructor
                     Constructor constructor = ClassReflection.getConstructor(f.getType());
                     o = constructor.newInstance();
                     f.set(this, o);
-                    Gdx.app.log("entity", "Created new instance for null field: " + f.getName());
+                    Gdx.app.log("entity", "Created component for field: " + f.getName());
                 }
-                if (Component.class.isAssignableFrom(f.getType())){
-                    Component c = (Component)o;
-                    components.add(c);
-                    c.e = this;
-                    Gdx.app.log("entity", "add " + c.getClass());
-                } //else Gdx.app.log("entity", "not add " + f.getType());
+
+                Component c = (Component)o;
+                components.add(c);
+                c.e = this;
+                Gdx.app.log("entity", "add " + c.getClass());
+            } catch (ReflectionException e) {
+                // Per requirements: throw if constructor missing or reflection fails
+                throw new RuntimeException(e);
+            }
+        }
+
+        // Phase 2: Wire component-to-component references inside each component
+        for (int i = 0; i < components.size; i++){
+            Component comp = components.get(i);
+            try {
+                // Combine declared (non-public) and public fields
+                Field[] declared = ClassReflection.getDeclaredFields(comp.getClass());
+                Field[] publics = ClassReflection.getFields(comp.getClass());
+
+                // Process declared fields
+                for (Field cf : declared){
+                    if (cf.isStatic()) continue;
+                    Class<?> fType = cf.getType();
+                    if (!Component.class.isAssignableFrom(fType)) continue;
+
+                    Object current = cf.get(comp);
+                    if (current != null) continue;
+
+                    Component match = null;
+                    int matchCount = 0;
+                    for (int j = 0; j < components.size; j++){
+                        Component other = components.get(j);
+                        if (other == comp) continue;
+                        if (fType.isAssignableFrom(other.getClass())){
+                            match = other;
+                            matchCount++;
+                            if (matchCount > 1) break;
+                        }
+                    }
+                    if (matchCount > 1){
+                        throw new RuntimeException("Multiple component matches for field '" + cf.getName() + "' of " + comp.getClass().getName() + " (type " + fType.getName() + ")");
+                    }
+                    if (matchCount == 0){
+                        throw new RuntimeException("No component match for field '" + cf.getName() + "' of " + comp.getClass().getName() + " (type " + fType.getName() + ")");
+                    }
+                    if (matchCount == 1 && match != null){
+                        if (!cf.isAccessible()) cf.setAccessible(true);
+                        cf.set(comp, match);
+                        Gdx.app.log("entity", "wired " + comp.getClass().getSimpleName() + "." + cf.getName() + " -> " + match.getClass().getSimpleName());
+                    }
+                }
+
+                // Process public (including inherited public) fields
+                for (Field cf : publics){
+                    if (cf.isStatic()) continue;
+                    Class<?> fType = cf.getType();
+                    if (!Component.class.isAssignableFrom(fType)) continue;
+
+                    Object current = cf.get(comp);
+                    if (current != null) continue;
+
+                    Component match = null;
+                    int matchCount = 0;
+                    for (int j = 0; j < components.size; j++){
+                        Component other = components.get(j);
+                        if (other == comp) continue;
+                        if (fType.isAssignableFrom(other.getClass())){
+                            match = other;
+                            matchCount++;
+                            if (matchCount > 1) break;
+                        }
+                    }
+                    if (matchCount > 1){
+                        throw new RuntimeException("Multiple component matches for field '" + cf.getName() + "' of " + comp.getClass().getName() + " (type " + fType.getName() + ")");
+                    }
+                    if (matchCount == 0){
+                        throw new RuntimeException("No component match for field '" + cf.getName() + "' of " + comp.getClass().getName() + " (type " + fType.getName() + ")");
+                    }
+                    if (matchCount == 1 && match != null){
+                        if (!cf.isAccessible()) cf.setAccessible(true);
+                        cf.set(comp, match);
+                        Gdx.app.log("entity", "wired " + comp.getClass().getSimpleName() + "." + cf.getName() + " -> " + match.getClass().getSimpleName());
+                    }
+                }
             } catch (ReflectionException e) {
                 throw new RuntimeException(e);
             }

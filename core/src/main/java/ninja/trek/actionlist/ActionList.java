@@ -19,12 +19,15 @@ public class ActionList implements Poolable{
 	//public transient World world;
 	public DoublyLinkedList actions;// = new DoublyLinkedList<Action>();;
 	public int lanes;
-	public ActionList(){
+    public ActionList(){
 		actions = new DoublyLinkedList();
+        delayedActions = new BinaryHeap<Action>();
+        currentTime = 0f;
     }
 
-	public void update(float dt){
-		currentTime += dt;
+    public void update(float dt){
+        currentTime += dt;
+        processDueDelays();
 		lanes = Action.LANE_DELAY;
 		//Array.ArrayIterator<Action> iter = actions.iter();
 		if (actions.isEmpty()) return;
@@ -76,7 +79,13 @@ public String toString() {
 }
     @Override
     public void reset() {
-    	clearWithDelayed();
+		// Reset for pooling reuse
+		clearWithDelayed();
+		if (delayedActions != null) delayedActions.clear();
+		if (actions != null) actions.clear();
+		currentTime = 0f;
+		lanes = 0;
+		e = null;
 
     }
 
@@ -120,6 +129,7 @@ public String toString() {
 
     public void inserted(Entity e) {
 	    this.e = e;
+	    if (delayedActions == null) delayedActions = new BinaryHeap<Action>();
 	    //Array.ArrayIterator<Action> iter = actions.iter();
 	    if (actions.isEmpty()) return;
 	    Action a = actions.getFirst();
@@ -173,7 +183,7 @@ public String toString() {
     public <T extends Action> T getAction(Class<T> clas) {
     	Action a = actions.getFirst();
 		 while (a.getNext() != null){
-            if (a.getClass().isAssignableFrom(clas)) return (T) a;
+            if (clas.isAssignableFrom(a.getClass())) return (T) a;
             a = a.getNext();
         }
         return null;
@@ -182,7 +192,7 @@ public String toString() {
     public void remove(Class<? extends Action> clas) {
     	Action a = actions.getFirst();
 		 while (a.getNext() != null){
-            if (a.getClass().isAssignableFrom(clas)) {
+            if (clas.isAssignableFrom(a.getClass())) {
             	actions.remove(a);
             	return;
             }
@@ -220,9 +230,10 @@ public String toString() {
 
 
 
-	public void updateRender(float dt) {
+    public void updateRender(float dt) {
 
-		currentTime += dt;
+        currentTime += dt;
+        processDueDelays();
 		lanes = Action.LANE_DELAY;
 		//Array.ArrayIterator<Action> iter = actions.iter();
 		if (actions.isEmpty()) return;
@@ -259,5 +270,18 @@ public String toString() {
         //Gdx.app.log(TAG, "update"+actions.size());
 
 	}
+
+    private void processDueDelays() {
+        if (delayedActions == null || delayedActions.size == 0) return;
+        while (delayedActions.size > 0) {
+            Action top = delayedActions.peek();
+            if (top.getValue() <= currentTime) {
+                delayedActions.pop();
+                top.unDelay();
+            } else {
+                break;
+            }
+        }
+    }
 
 }

@@ -19,11 +19,11 @@ public class ActionListC extends Component{
 
     @Override
     public void onAdded(Main main) {
-        actions.clear();
+        actions.inserted(e);
     }
 
     @Override
     public void onRemove(Main main) {
-
+        actions.clearWithDelayed();
     }
 }

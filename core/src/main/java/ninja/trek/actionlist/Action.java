@@ -84,7 +84,15 @@ public abstract class Action extends BinaryHeap.Node implements Poolable{
 
 	@Override
 	public void reset() {
-		first  = true;
+		// Reset runtime state for pooling reuse
+		first = true;
+		isBlocking = false;
+		isFinished = false;
+		lanes = 0;
+		wasBlocked = false;
+		next = null;
+		prev = null;
+		parent = null;
 
 	}
 
